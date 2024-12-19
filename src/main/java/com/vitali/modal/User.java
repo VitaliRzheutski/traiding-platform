@@ -8,15 +8,18 @@ import lombok.Data;
 @Entity
 @Data
 public class User {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id // it's a unique identifier for this class
     @GeneratedValue(strategy = GenerationType.AUTO) //when a new user created id will create automatically
     private Long id;
 
-
-
-//    public String getFullName() {
-//        return fullName;
-//    }
 
     public String getFullName() {
         return fullName;
@@ -48,6 +51,12 @@ public class User {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //password will be only writable
     private String password;
+
+    public TwoFactorAuth getTwoFactorAuth() {
+        return twoFactorAuth;
+    }
+
+
 
     @Embedded
     private TwoFactorAuth twoFactorAuth = new TwoFactorAuth();
