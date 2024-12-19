@@ -57,6 +57,9 @@ public class User {
     }
 
 
+    public void setTwoFactorAuth(TwoFactorAuth twoFactorAuth) {
+        this.twoFactorAuth = twoFactorAuth;
+    }
 
     @Embedded
     private TwoFactorAuth twoFactorAuth = new TwoFactorAuth();

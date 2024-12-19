@@ -85,27 +85,27 @@ public class AuthController {
         String jwt = JwtProvider.generateToken(auth);
 
         User authUser = userRepository.findByEmail(userName);
-//        if(user.getTwoFactorAuth().isEnabled()){ //getTwoFactorAuth()
-//            AuthResponse res = new AuthResponse();
-//            res.setMessage("Two factor auth is enabled");
-//            res.setTwoFactorAuthEnabled(true);
-//            String otp= OtpUtils.generateOTP();
-//
-//            TwoFactorOTP oldTwoFactorOtp = twoFactorOtpService.findByUser(authUser.getId());
-//
-//            if(oldTwoFactorOtp != null){
-//                twoFactorOtpService.deleteTwoFactorOtp(oldTwoFactorOtp);
-//            }
-//            TwoFactorOTP newTwoFactorOtp = twoFactorOtpService.createTwoFactorOtp(authUser,otp,jwt);
-//
-//            emailService.sendVerificationOtpEmail(userName,otp);
-//
-//
-//            res.setSession(newTwoFactorOtp.getId());
-//            return new ResponseEntity<>(res, HttpStatus.ACCEPTED) ;
-//
-//
-//        }
+        if(user.getTwoFactorAuth().isEnabled()){ //getTwoFactorAuth()
+            AuthResponse res = new AuthResponse();
+            res.setMessage("Two factor auth is enabled");
+            res.setTwoFactorAuthEnabled(true);
+            String otp= OtpUtils.generateOTP();
+
+            TwoFactorOTP oldTwoFactorOtp = twoFactorOtpService.findByUser(authUser.getId());
+
+            if(oldTwoFactorOtp != null){
+                twoFactorOtpService.deleteTwoFactorOtp(oldTwoFactorOtp);
+            }
+            TwoFactorOTP newTwoFactorOtp = twoFactorOtpService.createTwoFactorOtp(authUser,otp,jwt);
+
+            emailService.sendVerificationOtpEmail(userName,otp);
+
+
+            res.setSession(newTwoFactorOtp.getId());
+            return new ResponseEntity<>(res, HttpStatus.ACCEPTED) ;
+
+
+        }
 
         AuthResponse res = new AuthResponse();
         res.setJwt(jwt);
@@ -128,7 +128,7 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
     }
-
+    @PostMapping("/two-factor/otp/{otp}")
     public ResponseEntity<AuthResponse> verifySigningOtp(
             @PathVariable String otp,
             @RequestParam String id) throws Exception {
