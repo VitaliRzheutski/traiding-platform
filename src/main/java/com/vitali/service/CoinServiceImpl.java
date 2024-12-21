@@ -34,18 +34,31 @@ public class CoinServiceImpl implements CoinService {
 
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
             List<Coin> coinList = objectMapper.readValue(response.getBody(), new TypeReference<List<Coin>>(){});
+            return coinList;
+
         }catch (HttpClientErrorException | HttpServerErrorException e){
             throw new Exception(e.getMessage());
 
         }
-
-
-        return List.of();
     }
 
     @Override
-    public String getMarketChart(String coinId, int days) {
-        return "";
+    public String getMarketChart(String coinId, int days) throws Exception {
+        String url = "https://api.coingecko.com/api/v3/coins/"+coinId+"/market_chart?vs_currency=usd&days=" + days;
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException | HttpServerErrorException e){
+            throw new Exception(e.getMessage());
+
+        }
     }
 
     @Override
