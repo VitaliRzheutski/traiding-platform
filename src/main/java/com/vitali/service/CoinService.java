@@ -10,9 +10,9 @@ public interface CoinService {
 
     String getCoinDetails(String coinId) throws Exception;
 
-    Coin findById(String coinId);//from database
+    Coin findById(String coinId) throws Exception;//from database
 
-    String searchCoin(String keyword);
+    String searchCoin(String keyword) throws Exception;
 
     String getTop50CoinsByMarketCapRank();
 

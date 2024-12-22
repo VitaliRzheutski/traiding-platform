@@ -15,6 +15,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CoinServiceImpl implements CoinService {
 
@@ -97,10 +98,6 @@ public class CoinServiceImpl implements CoinService {
             coin.setTotalSupply(marketData.get("total_supply").get("usd").asLong());
             coinRepository.save(coin);
 
-
-
-
-
             return response.getBody();
         }catch (HttpClientErrorException | HttpServerErrorException e){
             throw new Exception(e.getMessage());
@@ -109,13 +106,32 @@ public class CoinServiceImpl implements CoinService {
     }
 
     @Override
-    public Coin findById(String coinId) {
-        return null;
+    public Coin findById(String coinId) throws Exception {
+        Optional<Coin> optionalCoin = coinRepository.findById(coinId);
+
+        if(optionalCoin.isPresent()){
+            throw new Exception("Coin not found");
+        }
+        return optionalCoin.get();
     }
 
     @Override
-    public String searchCoin(String keyword) {
-        return "";
+    public String searchCoin(String keyword) throws Exception {
+        String url = "https://api.coingecko.com/api/v3/search?query=" + keyword;
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException | HttpServerErrorException e){
+            throw new Exception(e.getMessage());
+
+        }
     }
 
     @Override
