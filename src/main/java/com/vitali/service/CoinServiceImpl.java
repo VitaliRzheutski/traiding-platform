@@ -1,6 +1,7 @@
 package com.vitali.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vitali.modal.Coin;
 import com.vitali.repository.CoinRepository;
@@ -62,8 +63,49 @@ public class CoinServiceImpl implements CoinService {
     }
 
     @Override
-    public String getCoinDetails(String coinId) {
-        return "";
+    public String getCoinDetails(String coinId) throws Exception {
+        String url = "https://api.coingecko.com/api/v3/coins/"+coinId;
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+            //save data in db
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+
+            Coin coin = new Coin();
+            coin.setId(jsonNode.get("id").asText());
+            coin.setName(jsonNode.get("name").asText());
+            coin.setSymbol(jsonNode.get("symbol").asText());
+            coin.setImage(jsonNode.get("image").get("large").asText()); //setImage
+
+            JsonNode marketData = jsonNode.get("market_data");
+
+            coin.setCurrentPrice(marketData.get("current_price").get("usd").asDouble());//asDouble());
+            coin.setMarketCap(marketData.get("market_cap").get("usd").asLong());
+            coin.setMarketCapRank(marketData.get("market_cap").get("rank").asInt());
+            coin.setTotalVolume(marketData.get("total_volume").get("usd").asLong());
+            coin.setHigh24h(marketData.get("high_24h").get("usd").asDouble());
+            coin.setLow24h(marketData.get("low_24h").get("usd").asDouble());
+            coin.setPriceChange24h(marketData.get("price_change_24h").get("usd").asDouble());
+            coin.setPriceChangePercentage24h(marketData.get("price_change_percentage_24h").get("usd").asDouble());
+            coin.setMarketCapChange24h(marketData.get("market_cap_change_24h").get("usd").asLong());
+            coin.setMarketCapChangePercentage24h(marketData.get("market_cap_change_percentage_24h").get("usd").asLong());
+            coin.setTotalSupply(marketData.get("total_supply").get("usd").asLong());
+            coinRepository.save(coin);
+
+
+
+
+
+            return response.getBody();
+        }catch (HttpClientErrorException | HttpServerErrorException e){
+            throw new Exception(e.getMessage());
+
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -16,13 +17,17 @@ public class Coin {
     @JsonProperty("id")
     private String id;
 
-    public String getSymbol() {
-        return symbol;
-    }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+    @Column(nullable = false)
+    @JsonProperty("symbol")
+    private String symbol;
+
+    @Column(nullable = false)
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("image")
+    private String image;
 
     public String getId() {
         return id;
@@ -30,6 +35,14 @@ public class Coin {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getName() {
@@ -40,27 +53,27 @@ public class Coin {
         this.name = name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public BigDecimal getCurrentPrice() {
+    public double getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(BigDecimal currentPrice) {
+    public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
     }
 
-    public BigDecimal getMarketCap() {
+    public long getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(BigDecimal marketCap) {
+    public void setMarketCap(long marketCap) {
         this.marketCap = marketCap;
     }
 
@@ -72,123 +85,123 @@ public class Coin {
         this.marketCapRank = marketCapRank;
     }
 
-    public BigDecimal getFullyDilutedValuation() {
+    public long getFullyDilutedValuation() {
         return fullyDilutedValuation;
     }
 
-    public void setFullyDilutedValuation(BigDecimal fullyDilutedValuation) {
+    public void setFullyDilutedValuation(long fullyDilutedValuation) {
         this.fullyDilutedValuation = fullyDilutedValuation;
     }
 
-    public BigDecimal getTotalVolume() {
+    public long getTotalVolume() {
         return totalVolume;
     }
 
-    public void setTotalVolume(BigDecimal totalVolume) {
+    public void setTotalVolume(long totalVolume) {
         this.totalVolume = totalVolume;
     }
 
-    public BigDecimal getHigh24h() {
+    public double getHigh24h() {
         return high24h;
     }
 
-    public void setHigh24h(BigDecimal high24h) {
+    public void setHigh24h(double high24h) {
         this.high24h = high24h;
     }
 
-    public BigDecimal getLow24h() {
+    public double getLow24h() {
         return low24h;
     }
 
-    public void setLow24h(BigDecimal low24h) {
+    public void setLow24h(double low24h) {
         this.low24h = low24h;
     }
 
-    public BigDecimal getPriceChange24h() {
+    public double getPriceChange24h() {
         return priceChange24h;
     }
 
-    public void setPriceChange24h(BigDecimal priceChange24h) {
+    public void setPriceChange24h(double priceChange24h) {
         this.priceChange24h = priceChange24h;
     }
 
-    public BigDecimal getPriceChangePercentage24h() {
+    public double getPriceChangePercentage24h() {
         return priceChangePercentage24h;
     }
 
-    public void setPriceChangePercentage24h(BigDecimal priceChangePercentage24h) {
+    public void setPriceChangePercentage24h(double priceChangePercentage24h) {
         this.priceChangePercentage24h = priceChangePercentage24h;
     }
 
-    public BigDecimal getMarketCapChange24h() {
+    public long getMarketCapChange24h() {
         return marketCapChange24h;
     }
 
-    public void setMarketCapChange24h(BigDecimal marketCapChange24h) {
+    public void setMarketCapChange24h(long marketCapChange24h) {
         this.marketCapChange24h = marketCapChange24h;
     }
 
-    public BigDecimal getMarketCapChangePercentage24h() {
+    public double getMarketCapChangePercentage24h() {
         return marketCapChangePercentage24h;
     }
 
-    public void setMarketCapChangePercentage24h(BigDecimal marketCapChangePercentage24h) {
+    public void setMarketCapChangePercentage24h(double marketCapChangePercentage24h) {
         this.marketCapChangePercentage24h = marketCapChangePercentage24h;
     }
 
-    public BigDecimal getCirculatingSupply() {
+    public long getCirculatingSupply() {
         return circulatingSupply;
     }
 
-    public void setCirculatingSupply(BigDecimal circulatingSupply) {
+    public void setCirculatingSupply(long circulatingSupply) {
         this.circulatingSupply = circulatingSupply;
     }
 
-    public BigDecimal getTotalSupply() {
+    public long getTotalSupply() {
         return totalSupply;
     }
 
-    public void setTotalSupply(BigDecimal totalSupply) {
+    public void setTotalSupply(long totalSupply) {
         this.totalSupply = totalSupply;
     }
 
-    public BigDecimal getMaxSupply() {
+    public long getMaxSupply() {
         return maxSupply;
     }
 
-    public void setMaxSupply(BigDecimal maxSupply) {
+    public void setMaxSupply(long maxSupply) {
         this.maxSupply = maxSupply;
     }
 
-    public BigDecimal getAth() {
+    public double getAth() {
         return ath;
     }
 
-    public void setAth(BigDecimal ath) {
+    public void setAth(double ath) {
         this.ath = ath;
     }
 
-    public BigDecimal getAthChangePercentage() {
+    public double getAthChangePercentage() {
         return athChangePercentage;
     }
 
-    public void setAthChangePercentage(BigDecimal athChangePercentage) {
+    public void setAthChangePercentage(double athChangePercentage) {
         this.athChangePercentage = athChangePercentage;
     }
 
-    public LocalDateTime getAthDate() {
+    public Date getAthDate() {
         return athDate;
     }
 
-    public void setAthDate(LocalDateTime athDate) {
+    public void setAthDate(Date athDate) {
         this.athDate = athDate;
     }
 
-    public BigDecimal getAtl() {
+    public double getAtl() {
         return atl;
     }
 
-    public void setAtl(BigDecimal atl) {
+    public void setAtl(double atl) {
         this.atl = atl;
     }
 
@@ -200,104 +213,93 @@ public class Coin {
         this.atlChangePercentage = atlChangePercentage;
     }
 
-    public LocalDateTime getAtlDate() {
+    public Date getAtlDate() {
         return atlDate;
     }
 
-    public void setAtlDate(LocalDateTime atlDate) {
+    public void setAtlDate(Date atlDate) {
         this.atlDate = atlDate;
     }
 
-    public BigDecimal getRoi() {
+    public String getRoi() {
         return roi;
     }
 
-    public void setRoi(BigDecimal roi) {
+    public void setRoi(String roi) {
         this.roi = roi;
     }
 
-    public LocalDateTime getLastUpdated() {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(LocalDateTime lastUpdated) {
+    public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    @Column(nullable = false)
-    @JsonProperty("symbol")
-    private String symbol;
-
-    @Column(nullable = false)
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("image")
-    private String imageUrl;
-
     @JsonProperty("current_price")
-    private BigDecimal currentPrice;
+    private double currentPrice;
 
     @JsonProperty("market_cap")
-    private BigDecimal marketCap;
+    private long marketCap;
 
     @JsonProperty("market_cap_rank")
     private int marketCapRank;
 
     @JsonProperty("fully_diluted_valuation")
-    private BigDecimal fullyDilutedValuation;
+    private long fullyDilutedValuation;
 
     @JsonProperty("total_volume")
-    private BigDecimal totalVolume;
+    private long totalVolume;
 
     @JsonProperty("high_24h")
-    private BigDecimal high24h;
+    private double high24h;
 
     @JsonProperty("low_24h")
-    private BigDecimal low24h;
+    private double low24h;
 
     @JsonProperty("price_change_24h")
-    private BigDecimal priceChange24h;
+    private double priceChange24h;
 
     @JsonProperty("price_change_percentage_24h")
-    private BigDecimal priceChangePercentage24h;
+    private double priceChangePercentage24h;
 
     @JsonProperty("market_cap_change_24h")
-    private BigDecimal marketCapChange24h;
+    private long marketCapChange24h;
 
     @JsonProperty("market_cap_change_percentage_24h")
-    private BigDecimal marketCapChangePercentage24h;
+    private double marketCapChangePercentage24h;
 
     @JsonProperty("circulating_supply")
-    private BigDecimal circulatingSupply;
+    private long circulatingSupply;
 
     @JsonProperty("total_supply")
-    private BigDecimal totalSupply;
+    private long totalSupply;
 
     @JsonProperty("max_supply")
-    private BigDecimal maxSupply;
+    private long maxSupply;
 
     @JsonProperty("ath")
-    private BigDecimal ath;
+    private double ath;
 
     @JsonProperty("ath_change_percentage")
-    private BigDecimal athChangePercentage;
+    private double athChangePercentage;
 
     @JsonProperty("ath_date")
-    private LocalDateTime athDate;
+    private Date athDate;
 
     @JsonProperty("atl")
-    private BigDecimal atl;
+    private double atl;
 
     @JsonProperty("atl_change_percentage")
     private BigDecimal atlChangePercentage;
 
     @JsonProperty("atl_date")
-    private LocalDateTime atlDate;
+    private Date atlDate;
 
     @JsonProperty("roi")
-    private BigDecimal roi;
+    private String roi;
 
     @JsonProperty("last_updated")
-    private LocalDateTime lastUpdated;
+    private Date lastUpdated;
 }
