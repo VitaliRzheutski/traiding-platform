@@ -154,8 +154,22 @@ public class CoinServiceImpl implements CoinService {
     }
 
     @Override
-    public String getTreadingCoins() {
-        return "";
+    public String getTreadingCoins() throws Exception {
+        String url = "https://api.coingecko.com/api/v3/search/treading";
+
+        RestTemplate restTemplate = new RestTemplate();
+        try{
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+            return response.getBody();
+
+        }catch (HttpClientErrorException | HttpServerErrorException e){
+            throw new Exception(e.getMessage());
+
+        }
     }
 
 }
