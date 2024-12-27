@@ -7,6 +7,9 @@ import com.vitali.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 @Service
 public class WalletServiceImpl implements WalletService {
 
@@ -26,12 +29,20 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public Wallet addBalance(Wallet wallet, Long money) {
-        return null;
+        BigDecimal balance = wallet.getBalance();
+        BigDecimal newBalance = balance.add(BigDecimal.valueOf(money));
+
+        wallet.setBalance(newBalance);
+        return walletRepository.save(wallet);
     }
 
     @Override
-    public Wallet findWalletById(Long id) {
-        return null;
+    public Wallet findWalletById(Long id) throws Exception {
+        Optional<Wallet> wallet = walletRepository.findById(id);
+        if (wallet.isPresent()) {
+            return wallet.get();
+        }
+        throw new Exception("Wallet not found");
     }
 
     @Override
