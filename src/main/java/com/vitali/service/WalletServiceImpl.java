@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
-public class WalletServiceImpl implements WalletService {
+public  class WalletServiceImpl implements WalletService {
 
     @Autowired
     private  WalletRepository walletRepository;
@@ -46,12 +46,29 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet walletToWalletTransaction(User sender, Wallet wallet) {
-        return null;
+    public Wallet walletToWalletTransaction(User sender, Wallet receiverWallet, Long amount) throws Exception {
+        Wallet senderWallet = getUserWallet(sender);
+        if(senderWallet.getBalance().compareTo(BigDecimal.valueOf(amount)) < 0) {
+            throw new Exception("Insufficient balance...");
+        }
+        BigDecimal senderBalance = senderWallet
+                .getBalance()
+                .subtract(BigDecimal.valueOf(amount));
+
+        senderWallet.setBalance(senderBalance);
+        walletRepository.save(senderWallet);
+
+        BigDecimal receiverBalance = receiverWallet
+                .getBalance()
+                .add(BigDecimal.valueOf(amount));
+        receiverWallet.setBalance(receiverBalance);
+        return senderWallet;
     }
 
     @Override
     public Wallet payOrderPayment(Order order, User user) {
+        Wallet wallet = getUserWallet(user);
+//        if(order.get)
         return null;
     }
 }
