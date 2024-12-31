@@ -2,9 +2,8 @@ package com.vitali.controller;
 
 import com.vitali.domain.OrderType;
 import com.vitali.modal.Coin;
-import com.vitali.modal.Order;
+import com.vitali.modal.Orders;
 import com.vitali.modal.User;
-import com.vitali.modal.WalletTransaction;
 import com.vitali.request.CreateOrderRequest;
 import com.vitali.service.CoinService;
 import com.vitali.service.OrderService;
@@ -29,24 +28,24 @@ public class OrderController {
 //    private WalletTransactionService walletTransactionService;
 
     @PostMapping("/pay")
-    public ResponseEntity<Order>payOrderPayment(
+    public ResponseEntity<Orders>payOrderPayment(
             @RequestHeader("Authorization") String jwt,
             @RequestBody CreateOrderRequest req
     )throws Exception{
         User user = userService.findUserByJwt(jwt);
         Coin coin = coinService.findById(req.getCoinId());
-        Order order = orderService.processOrder(coin, req.getQuantity(),req.getOrderType(),user);
+        Orders order = orderService.processOrder(coin, req.getQuantity(),req.getOrderType(),user);
         return ResponseEntity.ok(order);
     }
 
 
-    @PostMapping("/{orderId }")
-    public ResponseEntity<Order>getOrderById(
+    @PostMapping("/{orderId}")
+    public ResponseEntity<Orders>getOrderById(
             @RequestHeader("Authorization") String jwtToken,
             @PathVariable Long orderId
     )throws Exception{
         User user = userService.findUserByJwt(jwtToken);
-        Order order = orderService.getOrderById(orderId);
+        Orders order = orderService.getOrderById(orderId);
 
         if(order.getUser().getId().equals(user.getId())) {
             return ResponseEntity.ok(order);
@@ -56,7 +55,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public ResponseEntity<List<Order>>getAlOrdersForUser(
+    public ResponseEntity<List<Orders>>getAlOrdersForUser(
             @RequestHeader("Authorization") String jwt,
             @RequestParam(required = false) OrderType order_type,
             @RequestParam(required = false) String asset_symbol
@@ -64,7 +63,7 @@ public class OrderController {
 
     )throws Exception{
         Long userId = userService.findUserByJwt(jwt).getId();
-        List<Order> userOrders = orderService.getAllOrdersOfUser(userId,order_type,asset_symbol);
+        List<Orders> userOrders = orderService.getAllOrdersOfUser(userId,order_type,asset_symbol);
 
         return ResponseEntity.ok(userOrders);
 

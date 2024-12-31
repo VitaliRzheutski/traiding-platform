@@ -1,11 +1,11 @@
 package com.vitali.repository;
 
-import com.vitali.modal.Order;
+import com.vitali.modal.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<Orders, Long> {
 
-   List<Order> findByUserId(long userId);
+   List<Orders> findByUserId(long userId);
 }

@@ -57,11 +57,11 @@ public class OrderItem {
         this.sellPrice = sellPrice;
     }
 
-    public Order getOrder() {
+    public Orders getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Orders order) {
         this.order = order;
     }
 
@@ -69,5 +69,5 @@ public class OrderItem {
 
     @JsonIgnore //solve recursion problem
     @OneToOne
-    private Order order;
+    private Orders order;
 }
