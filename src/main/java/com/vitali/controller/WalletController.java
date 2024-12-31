@@ -1,6 +1,6 @@
 package com.vitali.controller;
 
-import com.vitali.modal.Order;
+import com.vitali.modal.Orders;
 import com.vitali.modal.User;
 import com.vitali.modal.Wallet;
 import com.vitali.modal.WalletTransaction;
@@ -30,7 +30,7 @@ public class WalletController {
         return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping("/api/wallet/${walletId}/transfer")
+    @RequestMapping("/api/wallet/{walletId}/transfer")
     public ResponseEntity<Wallet> walletToWalletTransfer(
             @RequestHeader("Authorization") String jwt,
             @PathVariable Long walletId,
@@ -49,7 +49,7 @@ public class WalletController {
     ) throws Exception {
         User user=userService.findUserByJwt(jwt);
 
-        Order order = orderService.getOrderById(orderId);
+        Orders order = orderService.getOrderById(orderId);
 
         Wallet wallet = walletService.payOrderPayment(order, user);
 

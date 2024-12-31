@@ -1,7 +1,7 @@
 package com.vitali.service;
 
 import com.vitali.domain.OrderType;
-import com.vitali.modal.Order;
+import com.vitali.modal.Orders;
 import com.vitali.modal.User;
 import com.vitali.modal.Wallet;
 import com.vitali.repository.WalletRepository;
@@ -67,7 +67,7 @@ public  class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public Wallet payOrderPayment(Order order, User user) throws Exception {
+    public Wallet payOrderPayment(Orders order, User user) throws Exception {
         Wallet wallet = getUserWallet(user);
         if(order.getOrderType().equals(OrderType.BUY)){
             BigDecimal newBalance = wallet.getBalance().subtract(order.getPrice());
