@@ -1,8 +1,6 @@
 package com.vitali.modal;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -221,13 +219,6 @@ public class Coin {
         this.atlDate = atlDate;
     }
 
-    public String getRoi() {
-        return roi;
-    }
-
-    public void setRoi(String roi) {
-        this.roi = roi;
-    }
 
     public Date getLastUpdated() {
         return lastUpdated;
@@ -297,9 +288,26 @@ public class Coin {
     @JsonProperty("atl_date")
     private Date atlDate;
 
-    @JsonProperty("roi")
-    private String roi;
+//    @JsonProperty("roi")
+//    private String roi;
 
     @JsonProperty("last_updated")
     private Date lastUpdated;
+
+    @Embedded // Marks the `Roi` object as embedded
+    @JsonProperty("roi")
+    private Roi roi;
+
+    @Data
+    @Embeddable // Marks the `Roi` class as embeddable
+    public static class Roi {
+        @JsonProperty("times")
+        private Double times;
+
+        @JsonProperty("currency")
+        private String currency;
+
+        @JsonProperty("percentage")
+        private Double percentage;
+    }
 }

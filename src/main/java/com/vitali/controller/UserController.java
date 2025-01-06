@@ -35,12 +35,11 @@ public class UserController {
     @Autowired
     private ForgotPasswordService forgotPasswordService;
 
-
     @GetMapping("/api/users/profile")
-    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) throws Exception { //???
         User user = userService.findUserByJwt(jwt);
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     //    sending otp

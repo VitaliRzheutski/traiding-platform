@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             throw new Exception("user not found");
         }
-        return null;
+        return user;
     }
 
     @Override
