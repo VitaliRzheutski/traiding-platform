@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
             Orders order = createOrder(user,orderItem,OrderType.SELL);
             orderItem.setOrder(order);
 
-            //if we sell all assests, so we need to remove asset from user list
+            //if we sell all assets, so we need to remove asset from user list
             if(assetToSell.getQuantity() >= quantity){
                 order.setStatus(OrderStatus.SUCCESS);
                 order.setOrderType(OrderType.SELL);

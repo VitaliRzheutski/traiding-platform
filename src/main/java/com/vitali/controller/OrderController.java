@@ -54,7 +54,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping()
+    @GetMapping()
     public ResponseEntity<List<Orders>>getAlOrdersForUser(
             @RequestHeader("Authorization") String jwt,
             @RequestParam(required = false) OrderType order_type,
