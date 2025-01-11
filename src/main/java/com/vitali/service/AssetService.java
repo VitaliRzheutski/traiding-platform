@@ -13,6 +13,7 @@ public interface AssetService {
     Asset getAssetByUserId(Long userId, long assetId);
 
     List<Asset> getUsersAssets(Long userId);
+    List<Asset> getAllAssets();
 
     Asset updateAsset(Long assetId, double quantity) throws Exception;
 

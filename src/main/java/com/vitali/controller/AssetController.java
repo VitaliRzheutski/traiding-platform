@@ -19,6 +19,12 @@ public class AssetController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public ResponseEntity<List<Asset>> getAllAssets() {
+        List<Asset> assets = assetService.getAllAssets();
+        return ResponseEntity.ok().body(assets);
+    }
+
     @GetMapping("/{assetId}")
     public ResponseEntity<Asset>getAssetById(@PathVariable Long assetId) throws Exception {
         Asset asset = assetService.getAssetById(assetId);

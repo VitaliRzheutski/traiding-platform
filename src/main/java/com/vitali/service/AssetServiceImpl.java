@@ -40,7 +40,10 @@ public class AssetServiceImpl implements AssetService {
     public List<Asset> getUsersAssets(Long userId) {
         return assetRepository.findByUserId(userId);
     }
-
+    @Override
+    public List<Asset> getAllAssets() {
+        return assetRepository.findAll();
+    }
     @Override
     public Asset updateAsset(Long assetId, double quantity) throws Exception {
 
