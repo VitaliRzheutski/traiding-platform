@@ -8,6 +8,7 @@ import com.vitali.response.AuthResponse;
 import com.vitali.service.CustomUserDetailsService;
 import com.vitali.service.EmailService;
 import com.vitali.service.TwoFactorOtpService;
+import com.vitali.service.WatchListService;
 import com.vitali.utils.OtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,8 @@ public class AuthController {
     private TwoFactorOtpService twoFactorOtpService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private WatchListService watchListService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) throws Exception {
@@ -46,6 +49,7 @@ public class AuthController {
         newUser.setFullName(user.getFullName());
 
         User savedUser = userRepository.save(newUser);
+        watchListService.createWatchList(savedUser);
 
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 user.getEmail(),

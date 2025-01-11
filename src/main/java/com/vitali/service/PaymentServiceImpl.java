@@ -44,7 +44,8 @@ public class PaymentServiceImpl implements PaymentService {
         paymentOrder.setUser(user);
         paymentOrder.setAmount(amount);
         paymentOrder.setPaymentMethod(paymentMethod);
-        return null;
+        paymentOrder.setStatus(PaymentOrderStatus.PENDING);
+        return paymentOrderRepository.save(paymentOrder);
     }
 
     @Override
@@ -55,7 +56,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Boolean ProceedPaymentOrder(PaymentOrder paymentOrder, String paymentId) throws RazorpayException {
-
+    if(paymentOrder.getStatus()==null){
+        paymentOrder.setStatus(PaymentOrderStatus.PENDING);
+    }
         if(paymentOrder.getStatus().equals(PaymentOrderStatus.PENDING)){
             if(paymentOrder.getPaymentMethod().equals(PaymentMethod.RAZORPAY)){
                 RazorpayClient razorpay = new RazorpayClient(apiKey,apiSecretKey);
@@ -81,7 +84,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentResponse createRazorpayPaymentLink(User user, Long amount) {
+    public PaymentResponse createRazorpayPaymentLink(User user, Long amount,Long orderId) {
 
         Long Amount = amount*100;
 
@@ -110,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService {
             paymentLinkRequest.put("reminder_enable", true);
 
             //Set the callback url and method
-            paymentLinkRequest.put("callback_url","http://localhost:5173/wallet");
+            paymentLinkRequest.put("callback_url","http://localhost:5173/wallet?order_id=" + orderId);
             paymentLinkRequest.put("callback_method", "get");
 
             //Create the payment link using the paymentLink.create() method
