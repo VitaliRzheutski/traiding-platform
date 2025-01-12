@@ -1,12 +1,14 @@
 package com.vitali.controller;
 
+import com.vitali.domain.WalletTransactionType;
 import com.vitali.modal.User;
 import com.vitali.modal.Wallet;
+import com.vitali.modal.WalletTransaction;
 import com.vitali.modal.Withdrawal;
+import com.vitali.service.TransactionService;
 import com.vitali.service.UserService;
 import com.vitali.service.WalletService;
 import com.vitali.service.WithdrawalService;
-import com.vitali.service.WithdrawalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,8 @@ public class WithdrawalController {
     private WalletService walletService;
     @Autowired
     private UserService userService;
-//    @Autowired
-//    private WalletTransactionService walletTransactionService;
+    @Autowired
+    private TransactionService transactionService ;
 
     @PostMapping("/api/withdrawal/{amount}")
     public ResponseEntity<?> withdrawalRequest(
@@ -36,7 +38,12 @@ public class WithdrawalController {
         Withdrawal withdrawal = withdrawalService.requestWithdrawal(amount, user);
         walletService.addBalance(userWallet, -withdrawal.getAmount());
 
-//        WalletTransaction walletTransaction = walletTransactionService,createTransaction = new WalletTransaction();
+        WalletTransaction walletTransaction = transactionService.createTransaction(
+                userWallet,
+                WalletTransactionType.WITHDRAWAL,null,
+                "bank account withdrawal",
+                withdrawal.getAmount()
+        );
         return new ResponseEntity<>(withdrawal, HttpStatus.OK);
 
     }
@@ -57,8 +64,8 @@ public class WithdrawalController {
         return new ResponseEntity<>(withdrawal, HttpStatus.OK);
     }
 
-    @GetMapping("/api/admin/withdrawal")
-    public ResponseEntity<List<Withdrawal>> getAllWithdrawalRequest(
+    @GetMapping("/api/withdrawal")
+    public ResponseEntity<List<Withdrawal>> getAllWithdrawalHistory(
             @RequestHeader("Authorization")String jwt) throws Exception{
         User user = userService.findUserByJwt(jwt);
         List<Withdrawal> withdrawal=withdrawalService.getAllWithdrawalRequest();

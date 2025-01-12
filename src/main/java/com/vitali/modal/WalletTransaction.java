@@ -2,29 +2,56 @@ package com.vitali.modal;
 
 import com.vitali.domain.WalletTransactionType;
 import jakarta.persistence.*;
-import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data
 @Entity
 public class WalletTransaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
 
-    private WalletTransactionType type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private WalletTransactionType transactionType;
 
-    private LocalDate date;
+    @Column(nullable = false)
+    private Long amount;
 
-    public long getId() {
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column
+    private String referenceId;
+
+    // Constructors
+    public WalletTransaction() {
+    }
+
+    public WalletTransaction(Wallet wallet, WalletTransactionType transactionType, Long amount,
+                             LocalDateTime timestamp, String description, String referenceId) {
+        this.wallet = wallet;
+        this.transactionType = transactionType;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.description = description;
+        this.referenceId = referenceId;
+    }
+
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,48 +63,43 @@ public class WalletTransaction {
         this.wallet = wallet;
     }
 
-    public WalletTransactionType getType() {
-        return type;
+    public WalletTransactionType getTransactionType() {
+        return transactionType;
     }
 
-    public void setType(WalletTransactionType type) {
-        this.type = type;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getTransferId() {
-        return transferId;
-    }
-
-    public void setTransferId(String transferId) {
-        this.transferId = transferId;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
+    public void setTransactionType(WalletTransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
-    private String transferId;
-    private String purpose;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 
-    private Long Amount;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
 }
