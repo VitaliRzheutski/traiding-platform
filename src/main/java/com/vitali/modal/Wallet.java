@@ -39,6 +39,7 @@ public class Wallet {
         this.balance = balance;
     }
 
-    private BigDecimal balance;
+    private BigDecimal balance = BigDecimal.valueOf(1000.000);
+        //BigDecimal.ZERO;
 
 }
