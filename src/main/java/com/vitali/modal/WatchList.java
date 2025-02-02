@@ -38,7 +38,8 @@ public class WatchList {
         this.coins = coins;
     }
 
-    @OneToOne
+//    @OneToOne
+    @ManyToOne
     private User user;
 
     @ManyToMany

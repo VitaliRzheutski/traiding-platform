@@ -34,4 +34,16 @@ public class PaymentDetailsController {
         );
     return new ResponseEntity<>(paymentDetails, HttpStatus.CREATED);
     }
+
+    @GetMapping("/payment-details")
+    public ResponseEntity<PaymentDetails> getUsersPaymentDetails(
+            @RequestHeader("Authorization")String jwt) throws Exception {
+
+        User user = userService.findUserByJwt(jwt);
+
+        PaymentDetails paymentDetails = paymentDetailsService.getUsersPaymentDetails(user);
+        return new ResponseEntity<>(paymentDetails, HttpStatus.CREATED);
+    }
+
+
 }

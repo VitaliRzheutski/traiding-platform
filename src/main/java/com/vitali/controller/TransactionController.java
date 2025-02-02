@@ -35,10 +35,13 @@ public class TransactionController {
         User user = userService.findUserByJwt(jwt);
 
         Wallet wallet = walletService.getUserWallet(user);
-
+        System.out.println("!wallet in transaction" + wallet);
+        System.out.println("!Fetching transactions for wallet: " + wallet);
         List<WalletTransaction> transactionList = transactionService.getTransactionsByWallet(wallet);
+        System.out.println("!transactionList in transaction" + transactionList);
 
 
         return new ResponseEntity<>(transactionList, HttpStatus.OK);
     }
 }
+

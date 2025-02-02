@@ -39,8 +39,11 @@ public class TransactionServiceImpl implements TransactionService {
         walletTransaction.setTimestamp(LocalDateTime.now());
         walletTransaction.setDescription(description);
         walletTransaction.setAmount(amount);
+        walletTransaction.setReferenceId(referenceId);
 
         // Save the transaction to the database
-        return walletTransactionRepository.save(walletTransaction);
+//        return walletTransactionRepository.save(walletTransaction);
+        WalletTransaction savedTransaction = walletTransactionRepository.save(walletTransaction);
+        return savedTransaction;
     }
 }

@@ -33,7 +33,7 @@ public class WatchListController {
     public ResponseEntity<WatchList>getWatchListById(
             @PathVariable Long watchlistId
     ) throws Exception{
-        WatchList watchList = watchListService.findUserWatchList(watchlistId);
+        WatchList watchList = watchListService.findById(watchlistId);
         return ResponseEntity.ok(watchList);
     }
 

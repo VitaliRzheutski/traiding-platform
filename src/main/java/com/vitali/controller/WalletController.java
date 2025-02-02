@@ -1,11 +1,9 @@
 package com.vitali.controller;
 
+import com.vitali.domain.WalletTransactionType;
 import com.vitali.modal.*;
 import com.vitali.response.PaymentResponse;
-import com.vitali.service.OrderService;
-import com.vitali.service.PaymentService;
-import com.vitali.service.UserService;
-import com.vitali.service.WalletService;
+import com.vitali.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +21,8 @@ public class WalletController {
     private OrderService orderService;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private TransactionService transactionService ;
 
     @GetMapping("/api/wallet")
     public ResponseEntity<Wallet>getUserWallet(@RequestHeader("Authorization")String jwt) throws Exception {
@@ -44,6 +44,42 @@ public class WalletController {
         Wallet wallet = walletService.walletToWalletTransaction(senderUser, receiverWallet, req.getAmount());
         return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
     }
+
+//    @RequestMapping("/api/wallet/{walletId}/transfer")
+//    public ResponseEntity<Wallet> walletToWalletTransfer(
+//            @RequestHeader("Authorization") String jwt,
+//            @PathVariable Long walletId,
+//            @RequestBody WalletTransaction req
+//    ) throws Exception {
+//        // Get user from JWT
+//        User senderUser = userService.findUserByJwt(jwt);
+//
+//        // Get receiver wallet by ID
+//        Wallet receiverWallet = walletService.findWalletById(walletId);
+//
+//        // Fetch sender wallet (you should retrieve the sender's wallet as well)
+////        Wallet userWallet = walletService.findWalletByUser(senderUser);
+//        Wallet userWallet = walletService.getUserWallet(senderUser);
+//        // Perform the wallet-to-wallet transaction
+//        Wallet wallet = walletService.walletToWalletTransaction(senderUser, receiverWallet, req.getAmount());
+//
+//        System.out.println("!wallet: " + wallet);  // Print for debugging
+//        System.out.println("!receiverWallet: " + receiverWallet);  // Print for debugging
+//
+//
+//        // Create a transaction for this wallet transfer
+//        WalletTransaction walletTransaction = transactionService.createTransaction(
+//                userWallet,  // Sender's wallet
+//                WalletTransactionType.WITHDRAWAL, // Assuming withdrawal type for sender
+//                receiverWallet,  // Receiver's wallet (optional, depending on your logic)
+//                "Wallet to wallet transfer",  // Description
+//                "14"  // Amount being transferred
+//        );
+//
+//        System.out.println("Created WalletTransaction: " + walletTransaction);
+//
+//        return new ResponseEntity<>(wallet, HttpStatus.ACCEPTED);
+//    }
 
     @RequestMapping("/api/wallet/order/{orderId}/pay")
     public ResponseEntity<Wallet> payOrderPayment(
